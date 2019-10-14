@@ -16,40 +16,24 @@ if (!fs.existsSync(filename)) {
     console.log(`The file ${filename} does not exist.`);
     process.exit(-1)
 }
+
 const content = fs.readFileSync(filename, "utf-8");
 const date = new Date();
 let date_name = date.getFullYear() + "" + helper.format_date(date.getMonth()) + "" + helper.format_date(date.getDate())
     + "" + helper.format_date(date.getHours()) + "" + helper.format_date(date.getMinutes()) + "" + helper.format_date(date.getSeconds());
-
-switch (helper.check_extension(filename)) {
+let json_stringified = "";
+const file_type = helper.check_extension(filename);
+switch (file_type) {
     case 1:
-        const ini_obj = ini(content);
-        try {
-            fs.writeFileSync(`php.${date_name}.json`, ini_obj);
-            console.log("Json file succefully created");
-            process.exit(0)
-        } catch(err) {
-            console.error(err);
-            process.exit(-1);
-        }
+        json_stringified = ini(content);
         break;
     case 2:
-        const env_obj = env(content);
-        try {
-            fs.writeFileSync(`env.${date_name}.json`, env_obj);
-            console.log("Json file succefully created");
-            process.exit(0)
-        } catch(err) {
-            console.error(err);
-            process.exit(-1);
-        }
+        json_stringified = env(content);
         break;
    default:
-       console.log("something else");
+       console.log("Error extension: the only extensions accepted are ini and env");
        process.exit(-1);
        break;
 }
 
-
-
-
+helper.create_json_file(json_stringified, date_name, file_type);
