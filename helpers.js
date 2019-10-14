@@ -16,9 +16,10 @@ exports.create_json_file = function create_json_file(json, date, type) {
     let name = "";
     if (type === 1) name = "php";
     else name = "env";
+    const file_name = `${name}.${date}.json`;
     try {
-        fs.writeFileSync(`${name}.${date}.json`, json);
-        console.log("Json file succefully created");
+        fs.writeFileSync(file_name, json);
+        console.log(`File '${file_name}' has been succefully created`);
         process.exit(0)
     } catch(err) {
         console.error("An error occurred\n",err);

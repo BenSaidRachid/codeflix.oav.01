@@ -1,4 +1,4 @@
-module.exports = function parseEnv(content) {
+module.exports = function parseENV(content) {
     const content_tab = content.match(/^([\w]+)=(.+)/gm,);
     let json = {};
 

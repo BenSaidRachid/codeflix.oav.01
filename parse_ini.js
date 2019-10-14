@@ -1,4 +1,4 @@
-module.exports = function parseIni(content) {
+module.exports = function parseINI(content) {
     const lines_cleaned = content.trim().replace(/;+.*/gm, "").replace(/ +/gm, ' ')
         .replace(/\s\s+/gm, '\n').replace(/^(.+)(=)/gm, "$1$2 ");
     const content_tab = lines_cleaned.match(/^(\[.*\])|^(.+)=(.+)/gm);
