@@ -1,6 +1,8 @@
 module.exports = function parseINI(content) {
-    const lines_cleaned = content.trim().replace(/;+.*/gm, "").replace(/ +/gm, ' ')
-        .replace(/\s\s+/gm, '\n').replace(/^(.+)(=)/gm, "$1$2 ");
+    const lines_cleaned = content.trim().replace(/;+.*/gm, "")
+        .replace(/^(.+)(=)/gm, "$1 $2 ")
+        .replace(/ +/gm, ' ');
+
     const content_tab = lines_cleaned.match(/^(\[.*\])|^(.+)=(.+)/gm);
     let json_tab = {};
     let key_category = "";
@@ -11,7 +13,7 @@ module.exports = function parseINI(content) {
             json_tab[key_category] = [];
         } else {
             const [key, value] = splitFirstOccurrence(line, "=");
-            json[key] = value.replace(/\"(.*)\"/gm, "$1");
+            json[key.trim()] = value.replace(/\"(.*)\"/gm, "$1");
             json_tab[key_category].push(json)
         }
     }
